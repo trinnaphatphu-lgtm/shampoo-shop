@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -9,24 +8,91 @@
 </head>
 <body>
 
-    <header>
+    <header class="no-print">
         <h1>SHAMPOO SHOP</h1>
         <p>ร้านขายแชมพูสมุนไพร</p>
+        <nav>
+            <button onclick="switchTab('shop')" class="tab-btn active" id="btn-shop">🛍️ หน้าร้านค้า</button>
+            <button onclick="switchTab('warehouse')" class="tab-btn" id="btn-warehouse">📦 ระบบคลังสินค้า (หยิบ/แพ็ค/จ่าหน้า)</button>
+        </nav>
     </header>
 
-    <section class="banner">
-        <h2>Healthy Hair, Happy Life</h2>
-        <p>ดูแลเส้นผมของคุณด้วยแชมพูจากธรรมชาติ</p>
-    </section>
+    <div id="shop-section" class="no-print">
+        <section class="banner">
+            <h2>Healthy Hair, Happy Life</h2>
+            <p>ดูแลเส้นผมของคุณด้วยแชมพูจากธรรมชาติ</p>
+        </section>
 
-    <main>
-        <h2>สินค้าของเรา</h2>
-        <div id="products" class="products">
-            กำลังโหลดสินค้า...
+        <main>
+            <h2>สินค้าของเรา</h2>
+            <div id="products" class="products">กำลังโหลดสินค้า...</div>
+
+            <section class="order-box" id="order-form-section">
+                <h2>📝 กรอกข้อมูลสั่งซื้อสินค้า</h2>
+                <form id="orderForm">
+                    <label>เลือกสินค้า:</label>
+                    <select id="skuSelect" required></select>
+
+                    <label>จำนวน (ขวด):</label>
+                    <input type="number" id="qty" value="1" min="1" required>
+
+                    <label>ชื่อ-นามสกุล ผู้รับ:</label>
+                    <input type="text" id="customerName" placeholder="กรอกชื่อ-นามสกุล" required>
+
+                    <label>เบอร์โทรศัพท์:</label>
+                    <input type="tel" id="phone" placeholder="กรอกเบอร์โทรศัพท์" required>
+
+                    <label>ที่อยู่จัดส่ง:</label>
+                    <textarea id="address" rows="3" placeholder="บ้านเลขที่ ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์" required></textarea>
+
+                    <button type="submit" id="submitBtn">ยืนยันการสั่งซื้อ</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <div id="warehouse-section" class="hidden no-print">
+        <main>
+            <div class="wh-header">
+                <h2>📦 รายการสั่งซื้อจาก Google Sheet (สำหรับหยิบและแพ็คสินค้า)</h2>
+                <button onclick="loadOrders()" class="refresh-btn">🔄 โหลดข้อมูลล่าสุด</button>
+            </div>
+            <div id="ordersList" class="orders-grid">กำลังโหลดรายการสั่งซื้อ...</div>
+        </main>
+    </div>
+
+    <div id="shipping-label-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="label-box">
+                <div class="label-header">
+                    <h3>ใบจ่าหน้าพัสดุ (SHIPPING LABEL)</h3>
+                    <strong id="lbl-order-id"></strong>
+                </div>
+                <hr>
+                <div>
+                    <strong>ผู้ส่ง:</strong> SHAMPOO SHOP (คลังสินค้า)<br>
+                    123 ถนนพหลโยธิน กรุงเทพฯ 10900 โทร. 02-123-4567
+                </div>
+                <hr>
+                <div>
+                    <strong>ผู้รับ:</strong> <span id="lbl-name" style="font-size:1.2rem; font-weight:bold;"></span><br>
+                    <strong>โทร:</strong> <span id="lbl-phone"></span><br>
+                    <strong>ที่อยู่:</strong> <span id="lbl-address"></span>
+                </div>
+                <hr>
+                <div>
+                    <strong>รายการหยิบสินค้า (PICKING LIST):</strong>
+                    <div id="lbl-items-detail" class="pick-highlight"></div>
+                </div>
+            </div>
+            <div class="modal-actions no-print">
+                <button onclick="window.print()" class="print-btn">🖨️ พิมพ์ใบจ่าหน้าพัสดุ</button>
+                <button onclick="closeLabel()" class="close-btn">ปิด</button>
+            </div>
         </div>
-    </main>
+    </div>
 
-    <footer>
+    <footer class="no-print">
         <p>SHAMPOO SHOP</p>
     </footer>
 
